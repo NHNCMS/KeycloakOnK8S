@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  namespace: keycloak
+  labels:
+    app: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+      - name: keycloak
+        image: quay.io/keycloak/keycloak:19.0.3
+        args: ["start"]
+        env:
+        - name: KEYCLOAK_ADMIN
+          value: "admin"
+        - name: KEYCLOAK_ADMIN_PASSWORD
+          value: "admin"
+        - name: KC_PROXY
+          value: "edge"
+        - name: KC_DB
+          value: "postgres"
+        - name: KC_DB_USERNAME
+          value: "admin"
+        - name: KC_DB_PASSWORD
+          value: "admin"
+        - name: KC_DB_URL_HOST
+          value: postgresql.keycloak.svc.cluster.local
+        - name: KC_DB_URL_PORT
+          value: "5432"
+        - name: KC_DB_URL_DATABASE
+          value: keycloak
+        - name: KC_HOSTNAME_STRICT
+          value: "false"
+        - name: KC_HOSTNAME_URL
+          value: "http://localhost:8080"
+        ports:
+        - name: http
+          containerPort: 8080
+        readinessProbe:
+          initialDelaySeconds: 60
+          timeoutSeconds: 10
+          periodSeconds: 60
+          httpGet:
+            path: /realms/master
+            port: 8080
