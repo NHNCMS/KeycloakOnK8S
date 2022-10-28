@@ -1,24 +1,23 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: keycloak-ingress
-  namespace: keycloak
+  name: {{.Values.name }}-ingress
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-stg
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.issuer }}
 spec:
   ingressClassName: nginx
   rules:
-  - host: example.com
+  - host: {{ .Values.ingress.host }}
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: keycloak
+            name: {{.Values.name }}
             port:
               number: 8080
   tls:
   - hosts:
-    - example.com
-    secretName: keycloak-ingress-cert
+    - {{ .Values.ingress.host }}
+    secretName: {{.Values.name }}-ingress-cert

@@ -1,0 +1,8 @@
+You just installed Keycloak using NHN CMS helm charts!
+
+What now?
+
+You can access the application by navigating to {{ .Values.ingress.url }} and using:
+
+Username: {{ .Values.auth.username }}
+Password: {{ .Values.auth.password }}
