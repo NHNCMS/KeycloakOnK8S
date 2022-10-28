@@ -1,0 +1,12 @@
+name: keycloak
+auth:
+  username: admin
+  password: admin
+database:
+  host: postgresql.default.svc.cluster.local
+  username: admin
+  password: admin
+ingress:
+  host: example.com
+  url: "https://example.com"
+  issuer: letsencrypt-stg
