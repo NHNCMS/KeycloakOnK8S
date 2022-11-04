@@ -40,7 +40,7 @@ spec:
         - name: KC_HOSTNAME_STRICT
           value: "false"
         - name: KC_HOSTNAME_URL
-          value: {{ .Values.ingress.host }}
+          value: {{ .Values.ingress.url }}
         ports:
         - name: http
           containerPort: 8080
